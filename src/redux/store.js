@@ -10,7 +10,13 @@ if (process.env.NODE_ENV === 'development') {
     middlewares.push(logger);
 }
 
-const composedEnhancer = compose(applyMiddleware(...middlewares),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+if (process.env.NODE_ENV === 'production') {
+    const composedEnhancer = compose(applyMiddleware(...middlewares))
+} else {
+    const composedEnhancer = compose(applyMiddleware(...middlewares),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())    
+}
+    
+
 
 
 export const store = createStore(rootReducer,composedEnhancer )
